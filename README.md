@@ -4,7 +4,7 @@ A complete ASP.NET Core MVC web application developed during internship training
 
 ## Features
 
-- Admin Login
+- Admin Login System
 - Student Management
 - Attendance Management
 - Attendance History
@@ -15,17 +15,46 @@ A complete ASP.NET Core MVC web application developed during internship training
 - Notice Board
 - Dashboard Analytics
 - Search Functionality
-- Portal Data Reset
+- Reset Portal Data
 
 ## Technologies Used
 
 - ASP.NET Core MVC
 - C#
-- SQL Server
 - Entity Framework Core
+- SQL Server
 - Bootstrap 5
-- HTML/CSS
+- HTML
+- CSS
 - JavaScript
+
+## Modules
+
+### Student Module
+- Add Student
+- Edit Student
+- Delete Student
+- Upload Student Photo
+
+### Attendance Module
+- Mark Attendance
+- Attendance History
+- Attendance Analytics
+
+### Result Module
+- Result Entry
+- Grade Calculation
+- Result History
+
+### Fee Module
+- Fee Collection
+- Due Fee Calculation
+- Fee History
+
+### Notice Module
+- Add Notice
+- Delete Notice
+- Notice Board
 
 ## Developed By
 
