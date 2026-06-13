@@ -1,0 +1,208 @@
+@model List<StudentPortal.Models.AttendanceViewModel>
+
+@{
+    ViewData["Title"] = "Attendance";
+    var today = DateTime.Now.ToString("dd MMM yyyy");
+}
+
+<h1 class="mb-4">
+    Attendance Management
+</h1>
+
+<div class="row mb-4">
+
+    <div class="col-md-3">
+
+        <div class="card shadow border-0 rounded-4">
+
+            <div class="card-body text-center">
+
+                <h5>Total Students</h5>
+
+                <h2 class="text-primary">
+                    @Model.Count
+                </h2>
+
+            </div>
+
+        </div>
+
+    </div>
+
+    <div class="col-md-3">
+
+        <div class="card shadow border-0 rounded-4">
+
+            <div class="card-body text-center">
+
+                <h5>Date</h5>
+
+                <h4 class="text-success">
+                    @today
+                </h4>
+
+            </div>
+
+        </div>
+
+    </div>
+
+</div>
+
+<div class="card shadow-lg border-0 rounded-4">
+
+    <div class="card-header bg-primary text-white">
+
+        <h3 class="mb-0">
+            Mark Attendance
+        </h3>
+
+    </div>
+
+    <div class="card-body">
+
+        <div class="row mb-3">
+
+            <div class="col-md-4">
+
+                <input type="text"
+                       id="searchBox"
+                       class="form-control"
+                       placeholder="Search Student">
+
+            </div>
+
+        </div>
+
+        <form method="post" asp-action="Save">
+
+            <table class="table table-hover table-bordered"
+                   id="attendanceTable">
+
+                <thead class="table-dark">
+
+                    <tr>
+
+                        <th>Photo</th>
+                        <th>Name</th>
+                        <th>Roll No</th>
+                        <th>Status</th>
+
+                    </tr>
+
+                </thead>
+
+                <tbody>
+
+                    @foreach (var student in Model)
+                    {
+                        <tr>
+
+                            <td>
+
+                                <img src="@student.PhotoPath"
+                                     width="70"
+                                     height="70"
+                                     style="
+                                     border-radius:50%;
+                                     object-fit:cover;
+                                     border:3px solid #0d6efd;">
+
+                            </td>
+
+                            <td>
+                                @student.Name
+                            </td>
+
+                            <td>
+                                @student.RollNo
+                            </td>
+
+                            <td>
+
+                                <select name="status"
+                                        class="form-select">
+
+                                    @if(student.Status=="Present")
+                                    {
+                                        <option value="Present" selected>
+                                            Present
+                                        </option>
+
+                                        <option value="Absent">
+                                            Absent
+                                        </option>
+                                    }
+                                    else
+                                    {
+                                        <option value="Present">
+                                            Present
+                                        </option>
+
+                                        <option value="Absent" selected>
+                                            Absent
+                                        </option>
+                                    }
+
+                                </select>
+
+                            </td>
+
+                        </tr>
+                    }
+
+                </tbody>
+
+            </table>
+
+            <button type="submit"
+                    class="btn btn-success btn-lg">
+
+                Save Attendance
+
+            </button>
+
+            <a href="/Attendance/History"
+               class="btn btn-primary btn-lg">
+
+                View History
+
+            </a>
+
+        </form>
+
+    </div>
+
+</div>
+
+<script>
+
+document
+.getElementById("searchBox")
+.addEventListener("keyup",
+function () {
+
+    let value =
+    this.value.toLowerCase();
+
+    let rows =
+    document.querySelectorAll(
+    "#attendanceTable tbody tr"
+    );
+
+    rows.forEach(row => {
+
+        row.style.display =
+        row.innerText
+        .toLowerCase()
+        .includes(value)
+
+        ? ""
+
+        : "none";
+
+    });
+
+});
+
+</script>

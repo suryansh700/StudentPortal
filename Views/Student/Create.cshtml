@@ -1,0 +1,73 @@
+@model StudentPortal.Models.Student
+
+<h2>Add Student</h2>
+
+<div class="card p-4 shadow">
+
+<form method="post"
+      enctype="multipart/form-data">
+
+    <div class="mb-3">
+
+        <label>Name</label>
+
+        <input asp-for="Name"
+               class="form-control"/>
+
+    </div>
+
+    <div class="mb-3">
+
+        <label>Roll No</label>
+
+        <input asp-for="RollNo"
+               class="form-control"/>
+
+    </div>
+
+    <div class="mb-3">
+
+        <label>Course</label>
+
+        <input asp-for="Course"
+               class="form-control"/>
+
+    </div>
+
+    <div class="mb-3">
+
+        <label>Email</label>
+
+        <input asp-for="Email"
+               class="form-control"/>
+
+    </div>
+
+    <div class="mb-3">
+
+        <label>Phone</label>
+
+        <input asp-for="Phone"
+               class="form-control"/>
+
+    </div>
+
+    <div class="mb-3">
+
+        <label>Student Photo</label>
+
+        <input type="file"
+               name="PhotoFile"
+               class="form-control"/>
+
+    </div>
+
+    <button class="btn btn-success">
+
+        Save Student
+
+    </button>
+
+</form>
+
+</div>

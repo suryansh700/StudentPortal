@@ -1,0 +1,187 @@
+@{
+    ViewData["Title"] = "Dashboard";
+}
+
+<h1 class="mb-4">Dashboard</h1>
+
+<a href="/Dashboard/ResetPortal"
+   class="btn btn-danger">
+   Reset Portal Data
+</a>
+
+<div class="row">
+
+    <div class="col-md-3">
+
+        <div class="card text-white bg-primary mb-4">
+
+            <div class="card-body">
+
+                <h5>Total Students</h5>
+
+                <h2>@ViewBag.TotalStudents</h2>
+
+            </div>
+
+        </div>
+
+    </div>
+
+    <div class="col-md-3">
+
+        <div class="card text-white bg-success mb-4">
+
+            <div class="card-body">
+
+                <h5>Attendance Records</h5>
+
+                <h2>@ViewBag.TotalAttendance</h2>
+
+            </div>
+
+        </div>
+
+    </div>
+
+    <div class="col-md-3">
+
+        <div class="card text-dark bg-warning mb-4">
+
+            <div class="card-body">
+
+                <h5>Results</h5>
+
+                <h2>@ViewBag.TotalResults</h2>
+
+            </div>
+
+        </div>
+
+    </div>
+
+    <div class="col-md-3">
+
+        <div class="card text-white bg-danger mb-4">
+
+            <div class="card-body">
+
+                <h5>Fees</h5>
+
+                <h2>@ViewBag.TotalFees</h2>
+
+            </div>
+
+        </div>
+
+    </div>
+
+</div>
+
+<div class="row">
+
+    <div class="col-md-3">
+
+        <div class="card text-white bg-info mb-4">
+
+            <div class="card-body">
+
+                <h5>Notices</h5>
+
+                <h2>@ViewBag.TotalNotices</h2>
+
+            </div>
+
+        </div>
+
+    </div>
+
+</div>
+
+<!-- Chart Section -->
+
+<div class="card mt-4">
+
+    <div class="card-header">
+
+        <h4>System Statistics</h4>
+
+    </div>
+
+    <div class="card-body">
+
+        <canvas id="portalChart"></canvas>
+
+    </div>
+
+</div>
+
+<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+
+<script>
+
+const ctx =
+document.getElementById(
+'portalChart'
+);
+
+new Chart(ctx, {
+
+    type:'bar',
+
+    data:{
+
+        labels:[
+
+            'Students',
+
+            'Attendance',
+
+            'Results',
+
+            'Fees',
+
+            'Notices'
+
+        ],
+
+        datasets:[{
+
+            label:'Portal Records',
+
+            data:[
+
+                @ViewBag.TotalStudents,
+
+                @ViewBag.TotalAttendance,
+
+                @ViewBag.TotalResults,
+
+                @ViewBag.TotalFees,
+
+                @ViewBag.TotalNotices
+
+            ],
+
+            borderWidth:1
+
+        }]
+
+    },
+
+    options:{
+
+        responsive:true,
+
+        scales:{
+
+            y:{
+                beginAtZero:true
+            }
+
+        }
+
+    }
+
+});
+
+</script>

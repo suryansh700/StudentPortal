@@ -1,0 +1,212 @@
+@model List<StudentPortal.Models.Fee>
+
+@{
+    ViewData["Title"] = "Fee History";
+
+    decimal totalCollection =
+        Model.Sum(x => x.PaidFee);
+
+    decimal totalDue =
+        Model.Sum(x => x.DueFee);
+
+    int paidStudents =
+        Model.Count(x => x.Status == "Paid");
+}
+
+<h1 class="mb-4 fw-bold">
+    📜 Fee History
+</h1>
+
+<a href="/Fees/ClearHistory"
+   class="btn btn-danger">
+   Clear All History
+</a>
+<div class="row mb-4">
+
+    <div class="col-md-4">
+
+        <div class="card shadow border-0 bg-success text-white">
+
+            <div class="card-body text-center">
+
+                <h6>Total Collection</h6>
+
+                <h2>
+                    ₹@totalCollection
+                </h2>
+
+            </div>
+
+        </div>
+
+    </div>
+
+    <div class="col-md-4">
+
+        <div class="card shadow border-0 bg-danger text-white">
+
+            <div class="card-body text-center">
+
+                <h6>Total Due</h6>
+
+                <h2>
+                    ₹@totalDue
+                </h2>
+
+            </div>
+
+        </div>
+
+    </div>
+
+    <div class="col-md-4">
+
+        <div class="card shadow border-0 bg-primary text-white">
+
+            <div class="card-body text-center">
+
+                <h6>Paid Students</h6>
+
+                <h2>
+                    @paidStudents
+                </h2>
+
+            </div>
+
+        </div>
+
+    </div>
+
+</div>
+
+<div class="card shadow-lg border-0">
+
+    <div class="card-header bg-dark text-white">
+
+        <h4 class="mb-0">
+            Fee Records
+        </h4>
+
+    </div>
+
+    <div class="card-body">
+
+        <input type="text"
+               id="searchBox"
+               class="form-control mb-3"
+               placeholder="🔍 Search Student">
+
+        <table class="table table-hover"
+               id="feeTable">
+
+            <thead class="table-dark">
+
+                <tr>
+
+                    <th>Name</th>
+
+                    <th>Roll No</th>
+
+                    <th>Total Fee</th>
+
+                    <th>Paid Fee</th>
+
+                    <th>Due Fee</th>
+
+                    <th>Status</th>
+
+                </tr>
+
+            </thead>
+
+            <tbody>
+
+                @foreach(var fee in Model)
+                {
+                    <tr>
+
+                        <td>
+                            @fee.StudentName
+                        </td>
+
+                        <td>
+                            @fee.RollNo
+                        </td>
+
+                        <td>
+                            ₹@fee.TotalFee
+                        </td>
+
+                        <td>
+                            ₹@fee.PaidFee
+                        </td>
+
+                        <td>
+                            ₹@fee.DueFee
+                        </td>
+
+                        <td>
+
+                            @if(fee.Status=="Paid")
+                            {
+                                <span class="badge bg-success">
+                                    Paid
+                                </span>
+                            }
+                            else if(fee.Status=="Partial")
+                            {
+                                <span class="badge bg-warning text-dark">
+                                    Partial
+                                </span>
+                            }
+                            else
+                            {
+                                <span class="badge bg-danger">
+                                    Pending
+                                </span>
+                            }
+
+                        </td>
+
+                    </tr>
+                }
+
+            </tbody>
+
+        </table>
+
+    </div>
+
+</div>
+
+<script>
+
+document
+.getElementById("searchBox")
+.addEventListener("keyup",
+function(){
+
+let value =
+this.value.toLowerCase();
+
+let rows =
+document.querySelectorAll(
+"#feeTable tbody tr"
+);
+
+rows.forEach(row=>{
+
+row.style.display =
+row.innerText
+.toLowerCase()
+.includes(value)
+
+? ""
+
+: "none";
+
+});
+
+});
+
+</script>

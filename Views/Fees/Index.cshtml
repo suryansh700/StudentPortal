@@ -1,0 +1,291 @@
+@model List<StudentPortal.Models.FeeViewModel>
+
+@{
+    ViewData["Title"] = "Fee Management";
+}
+
+<h1 class="mb-4 fw-bold">
+    💰 Fee Management
+</h1>
+
+<div class="row mb-4">
+
+    <div class="col-md-3">
+
+        <div class="card shadow border-0">
+
+            <div class="card-body text-center">
+
+                <h6>Total Students</h6>
+
+                <h2>@Model.Count</h2>
+
+            </div>
+
+        </div>
+
+    </div>
+
+    <div class="col-md-3">
+
+        <div class="card shadow border-0">
+
+            <div class="card-body text-center">
+
+                <h6>Academic Session</h6>
+
+                <h5>2025-26</h5>
+
+            </div>
+
+        </div>
+
+    </div>
+
+</div>
+
+<div class="card shadow-lg border-0">
+
+    <div class="card-header bg-success text-white">
+
+        <h4 class="mb-0">
+            Fee Collection
+        </h4>
+
+    </div>
+
+    <div class="card-body">
+
+        <input type="text"
+               id="searchBox"
+               class="form-control mb-3"
+               placeholder="🔍 Search Student">
+
+        <form method="post"
+              asp-action="Save">
+
+            <table class="table table-hover table-bordered"
+                   id="feeTable">
+
+                <thead class="table-dark">
+
+                    <tr>
+
+                        <th>Photo</th>
+                        <th>Name</th>
+                        <th>Roll No</th>
+                        <th>Total Fee</th>
+                        <th>Paid Fee</th>
+                        <th>Due Fee</th>
+                        <th>Status</th>
+
+                    </tr>
+
+                </thead>
+
+                <tbody>
+
+                    @for (int i = 0; i < Model.Count; i++)
+                    {
+                        <tr>
+
+                            <td width="90">
+
+                                <img src="@Model[i].PhotoPath"
+                                     width="60"
+                                     height="60"
+                                     style="
+                                     border-radius:50%;
+                                     object-fit:cover;" />
+
+                            </td>
+
+                            <td>
+
+                                @Model[i].StudentName
+
+                            </td>
+
+                            <td>
+
+                                @Model[i].RollNo
+
+                            </td>
+
+                            <td>
+
+                                <input type="number"
+                                       name="totalFee"
+                                       value="@Model[i].TotalFee"
+                                       class="form-control totalFee"
+                                       required />
+
+                            </td>
+
+                            <td>
+
+                                <input type="number"
+                                       name="paidFee"
+                                       value="@Model[i].PaidFee"
+                                       class="form-control paidFee"
+                                       required />
+
+                            </td>
+
+                            <td>
+
+                                <input type="number"
+                                       value="@Model[i].DueFee"
+                                       class="form-control dueFee"
+                                       readonly />
+
+                            </td>
+
+                            <td>
+
+                                @if (Model[i].Status == "Paid")
+                                {
+                                    <span class="badge bg-success statusBadge">
+                                        Paid
+                                    </span>
+                                }
+                                else if (Model[i].Status == "Partial")
+                                {
+                                    <span class="badge bg-warning text-dark statusBadge">
+                                        Partial
+                                    </span>
+                                }
+                                else
+                                {
+                                    <span class="badge bg-danger statusBadge">
+                                        Pending
+                                    </span>
+                                }
+
+                            </td>
+
+                        </tr>
+                    }
+
+                </tbody>
+
+            </table>
+
+            <button type="submit"
+                    class="btn btn-success btn-lg">
+
+                💾 Save Fees
+
+            </button>
+
+            <a href="/Fees/History"
+               class="btn btn-primary btn-lg">
+
+                📜 Fee History
+
+            </a>
+
+        </form>
+
+    </div>
+
+</div>
+
+<script>
+
+function calculateFees()
+{
+    let rows =
+    document.querySelectorAll(
+    "#feeTable tbody tr");
+
+    rows.forEach(row => {
+
+        let total =
+        parseFloat(
+        row.querySelector(".totalFee").value
+        ) || 0;
+
+        let paid =
+        parseFloat(
+        row.querySelector(".paidFee").value
+        ) || 0;
+
+        let due = total - paid;
+
+        row.querySelector(".dueFee")
+        .value = due;
+
+        let badge =
+        row.querySelector(".statusBadge");
+
+        if(due <= 0)
+        {
+            badge.className =
+            "badge bg-success statusBadge";
+
+            badge.innerText =
+            "Paid";
+        }
+        else if(paid > 0)
+        {
+            badge.className =
+            "badge bg-warning text-dark statusBadge";
+
+            badge.innerText =
+            "Partial";
+        }
+        else
+        {
+            badge.className =
+            "badge bg-danger statusBadge";
+
+            badge.innerText =
+            "Pending";
+        }
+
+    });
+}
+
+document
+.querySelectorAll(".totalFee,.paidFee")
+.forEach(input => {
+
+    input.addEventListener(
+    "input",
+    calculateFees);
+
+});
+
+calculateFees();
+
+document
+.getElementById("searchBox")
+.addEventListener("keyup",
+function(){
+
+let value =
+this.value.toLowerCase();
+
+let rows =
+document.querySelectorAll(
+"#feeTable tbody tr"
+);
+
+rows.forEach(row => {
+
+row.style.display =
+
+row.innerText
+.toLowerCase()
+.includes(value)
+
+? ""
+
+: "none";
+
+});
+
+});
+
+</script>

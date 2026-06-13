@@ -1,0 +1,73 @@
+@model StudentPortal.Models.Notice
+
+@{
+    ViewData["Title"] = "Add Notice";
+}
+
+<h1 class="mb-4 fw-bold">
+    📢 Add New Notice
+</h1>
+
+<div class="card shadow-lg border-0">
+
+    <div class="card-header bg-primary text-white">
+
+        <h4 class="mb-0">
+            Create Notice
+        </h4>
+
+    </div>
+
+    <div class="card-body">
+
+        <form method="post">
+
+            <div class="mb-4">
+
+                <label class="form-label fw-bold">
+
+                    Notice Title
+
+                </label>
+
+                <input asp-for="Title"
+                       class="form-control form-control-lg"
+                       placeholder="Enter Notice Title">
+
+            </div>
+
+            <div class="mb-4">
+
+                <label class="form-label fw-bold">
+
+                    Description
+
+                </label>
+
+                <textarea asp-for="Description"
+                          rows="6"
+                          class="form-control"
+                          placeholder="Enter Notice Details">
+                </textarea>
+
+            </div>
+
+            <button type="submit"
+                    class="btn btn-success btn-lg">
+
+                💾 Save Notice
+
+            </button>
+
+            <a href="/Notice"
+               class="btn btn-secondary btn-lg">
+
+                ↩ Back
+
+            </a>
+
+        </form>
+
+    </div>
+
+</div>

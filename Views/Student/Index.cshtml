@@ -1,0 +1,152 @@
+@model List<StudentPortal.Models.Student>
+
+<h1 class="mb-4">
+    Student Management
+</h1>
+
+<div class="row mb-4">
+
+    <div class="col-md-4">
+
+        <div class="card shadow">
+
+            <div class="card-body">
+
+                <h5>Total Students</h5>
+
+                <h2>
+                    @Model.Count
+                </h2>
+
+            </div>
+
+        </div>
+
+    </div>
+
+</div>
+
+<div class="card shadow p-3">
+
+    <div class="d-flex justify-content-between mb-3">
+
+        <a href="/Student/Create"
+           class="btn btn-primary">
+
+            Add Student
+
+        </a>
+
+        <input
+            type="text"
+            id="searchBox"
+            class="form-control w-25"
+            placeholder="Search Student">
+
+    </div>
+
+    <table
+        class="table table-hover table-bordered"
+        id="studentTable">
+
+        <thead class="table-dark">
+
+            <tr>
+
+                <th>Photo</th>
+                <th>Name</th>
+                <th>Roll No</th>
+                <th>Course</th>
+                <th>Email</th>
+                <th>Phone</th>
+                <th>Action</th>
+
+            </tr>
+
+        </thead>
+
+        <tbody>
+
+        @foreach(var student in Model)
+        {
+            <tr>
+
+                <td>
+
+                    <img
+                        src="@student.PhotoPath"
+                        width="60"
+                        height="60"
+                        style="border-radius:50%;
+                               object-fit:cover;">
+
+                </td>
+
+                <td>@student.Name</td>
+
+                <td>@student.RollNo</td>
+
+                <td>@student.Course</td>
+
+                <td>@student.Email</td>
+
+                <td>@student.Phone</td>
+
+                <td>
+
+                    <a href="/Student/Edit/@student.Id"
+                       class="btn btn-warning">
+
+                        Edit
+
+                    </a>
+
+                    <a href="/Student/Delete/@student.Id"
+                       class="btn btn-danger">
+
+                        Delete
+
+                    </a>
+
+                </td>
+
+            </tr>
+        }
+
+        </tbody>
+
+    </table>
+
+</div>
+
+<script>
+
+document
+.getElementById("searchBox")
+.addEventListener("keyup",
+function(){
+
+let value =
+this.value.toLowerCase();
+
+let rows =
+document.querySelectorAll(
+"#studentTable tbody tr"
+);
+
+rows.forEach(row=>{
+
+row.style.display =
+row.innerText
+.toLowerCase()
+.includes(value)
+
+? ""
+
+: "none";
+
+});
+
+});
+
+</script>

@@ -1,0 +1,229 @@
+@model List<StudentPortal.Models.Result>
+
+@{
+    ViewData["Title"] = "Result History";
+
+    var totalStudents = Model.Count;
+
+    var highestPercentage =
+    Model.Count > 0
+    ? Model.Max(x => x.Percentage)
+    : 0;
+
+    var averagePercentage =
+    Model.Count > 0
+    ? Model.Average(x => x.Percentage)
+    : 0;
+}
+
+<h1 class="mb-4 fw-bold">
+    Result History
+</h1>
+
+<a href="/Results/ClearHistory"
+   class="btn btn-danger mb-3">
+   Clear All History
+</a>
+
+<div class="row mb-4">
+
+    <div class="col-md-4">
+
+        <div class="card shadow border-0 rounded-4">
+
+            <div class="card-body text-center">
+
+                <h6>Total Results</h6>
+
+                <h2 class="text-primary">
+                    @totalStudents
+                </h2>
+
+            </div>
+
+        </div>
+
+    </div>
+
+    <div class="col-md-4">
+
+        <div class="card shadow border-0 rounded-4">
+
+            <div class="card-body text-center">
+
+                <h6>Highest Percentage</h6>
+
+                <h2 class="text-success">
+                    @highestPercentage %
+                </h2>
+
+            </div>
+
+        </div>
+
+    </div>
+
+    <div class="col-md-4">
+
+        <div class="card shadow border-0 rounded-4">
+
+            <div class="card-body text-center">
+
+                <h6>Average Percentage</h6>
+
+                <h2 class="text-warning">
+                    @Math.Round(averagePercentage, 2) %
+                </h2>
+
+            </div>
+
+        </div>
+
+    </div>
+
+</div>
+
+<div class="card shadow-lg border-0 rounded-4">
+
+    <div class="card-header bg-dark text-white">
+
+        <h4 class="mb-0">
+            Student Results
+        </h4>
+
+    </div>
+
+    <div class="card-body">
+
+        <input type="text"
+               id="searchBox"
+               class="form-control mb-3"
+               placeholder="Search Student..." />
+
+        <div class="table-responsive">
+
+            <table class="table table-hover align-middle"
+                   id="resultTable">
+
+                <thead class="table-dark">
+
+                    <tr>
+
+                        <th>Name</th>
+                        <th>Roll No</th>
+                        <th>Java</th>
+                        <th>Python</th>
+                        <th>DBMS</th>
+                        <th>Percentage</th>
+                        <th>Grade</th>
+
+                    </tr>
+
+                </thead>
+
+                <tbody>
+
+                    @foreach (var item in Model)
+                    {
+                        <tr>
+
+                            <td>@item.StudentName</td>
+
+                            <td>@item.RollNo</td>
+
+                            <td>@item.Java</td>
+
+                            <td>@item.Python</td>
+
+                            <td>@item.DBMS</td>
+
+                            <td>
+
+                                <span class="badge bg-info fs-6">
+
+                                    @item.Percentage %
+
+                                </span>
+
+                            </td>
+
+                            <td>
+
+                                @if (item.Grade == "A+")
+                                {
+                                    <span class="badge bg-success fs-6">
+                                        A+ Grade
+                                    </span>
+                                }
+                                else if (item.Grade == "A")
+                                {
+                                    <span class="badge bg-success fs-6">
+                                        A Grade
+                                    </span>
+                                }
+                                else if (item.Grade == "B")
+                                {
+                                    <span class="badge bg-primary fs-6">
+                                        B Grade
+                                    </span>
+                                }
+                                else if (item.Grade == "C")
+                                {
+                                    <span class="badge bg-warning text-dark fs-6">
+                                        C Grade
+                                    </span>
+                                }
+                                else
+                                {
+                                    <span class="badge bg-danger fs-6">
+                                        Fail
+                                    </span>
+                                }
+
+                            </td>
+
+                        </tr>
+                    }
+
+                </tbody>
+
+            </table>
+
+        </div>
+
+    </div>
+
+</div>
+
+<script>
+
+document
+.getElementById("searchBox")
+.addEventListener("keyup",
+function () {
+
+    let value =
+    this.value.toLowerCase();
+
+    let rows =
+    document.querySelectorAll(
+    "#resultTable tbody tr"
+    );
+
+    rows.forEach(row => {
+
+        row.style.display =
+
+        row.innerText
+        .toLowerCase()
+        .includes(value)
+
+        ? ""
+
+        : "none";
+
+    });
+
+});
+
+</script>
